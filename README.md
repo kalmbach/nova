@@ -1,2 +1,2 @@
-# startpoint
-Opinionated Ubuntu Setup
+# nova
+Opinionated Pop! OS Setup
