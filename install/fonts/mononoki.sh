@@ -1,6 +1,6 @@
 cd /tmp
-wget -q https://github.com/madmalik/mononoki/releases/download/1.6/mononoki.zip
-unzip -q mononoki.zip -d MononokiFont 
+wget -q -O mononoki.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Mononoki.zip"
+unzip -q $NOVA_PATH/install/fonts/mononoki.zip -d MononokiFont
 cp MononokiFont/*.ttf ~/.local/share/fonts
 rm -rf mononoki.zip MononokiFont 
 cd -
