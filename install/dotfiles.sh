@@ -29,3 +29,8 @@ wget -q -O catppuccin-gnome-terminal-install.py "https://raw.githubusercontent.c
 python3 catppuccin-gnome-terminal-install.py > /dev/null
 rm catppuccin-gnome-terminal-install.py
 cd -
+
+# Start tmux when opening terminal
+echo "" >> ~/.bashrc
+echo "# start tmux" >> ~/.bashrc
+echo "[[ -z \"\$TMUX\" ]] && exec tmux" >> ~/.bashrc
