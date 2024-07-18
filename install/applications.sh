@@ -1,24 +1,24 @@
 # Needed for all installers
-gum log --level info "Updating APT Repositories..."
+gum log --level info "updating apt repositories..."
 sudo apt update -y &> /dev/null
 
 if ! command -v curl &> /dev/null; then
-  gum log --level info "Installing curl..."
+  gum log --level info "installing curl..."
   sudo apt install -y curl > /dev/null 
 else
-  gum log --level info "Found curl $(curl --version | awk 'NR==1{print $2}')"
+  gum log --level info "found curl $(curl --version | awk 'NR==1{print $2}')"
 fi
 
 if ! command -v git &> /dev/null; then
   sudo apt install -y git > /dev/null 
 else
-  gum log --level info "Found git $(git --version | awk '{print $3}')"
+  gum log --level info "found git $(git --version | awk '{print $3}')"
 fi
 
 if ! command -v unzip &> /dev/null; then
   sudo apt install -y unzip > /dev/null 
 else
-  gum log --level info "Found unzip $(unzip -v | awk 'NR==1{print $2}')"
+  gum log --level info "found unzip $(unzip -v | awk 'NR==1{print $2}')"
 fi
 
 # Run application installers

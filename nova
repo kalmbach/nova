@@ -14,6 +14,9 @@ source $NOVA_PATH/check-version.sh
 # Install applications 
 source $NOVA_PATH/install/applications.sh
 
+# Install languages
+source $NOVA_PATH/install/languages.sh
+
 # Install fonts
 source $NOVA_PATH/install/fonts.sh
 

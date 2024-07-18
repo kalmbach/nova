@@ -1,4 +1,4 @@
-gum log --level info "Installing fonts..."
+gum log --level info "installing fonts..."
 mkdir -p ~/.local/share/fonts
 
 # Run font installers
