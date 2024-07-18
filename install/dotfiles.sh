@@ -26,6 +26,6 @@ cp $NOVA_PATH/install/dotfiles/nvim-syntax-coffeescript.vim ~/.config/nvim/synta
 gum log --level info "creating catppuccin gnome terminal profiles..."
 cd /tmp
 wget -q -O catppuccin-gnome-terminal-install.py "https://raw.githubusercontent.com/catppuccin/gnome-terminal/main/install.py"
-python3 catppuccin-gnome-terminal-install.py
+python3 catppuccin-gnome-terminal-install.py > /dev/null
 rm catppuccin-gnome-terminal-install.py
 cd -
