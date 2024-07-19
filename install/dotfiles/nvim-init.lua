@@ -4,7 +4,7 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.keymap
 
--- KEYMAPS --
+
 -- Window movement
 keymap.set("n", "<C-j>", "<C-w>j")
 keymap.set("n", "<C-k>", "<C-w>k")
@@ -58,8 +58,8 @@ vim.o.breakindent = true
 
 -- Number of spaces that a <Tab> counts for
 vim.o.tabstop = 2
-vim.o.softtabstop = 0 -- replicate tabstop
-vim.o.shiftwidth = 0 -- replicate tabstop
+vim.o.softtabstop = 0  -- replicate tabstop
+vim.o.shiftwidth = 0   -- replicate tabstop
 vim.o.expandtab = true -- only insert spaces
 
 -- Dont Save undo history
@@ -88,7 +88,7 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal support this
 vim.o.termguicolors = true
 
--- Open new horizontal split at bottom 
+-- Open new horizontal split at bottom
 -- Open new vertical split at right
 vim.o.splitbelow = true
 vim.o.splitright = true
@@ -131,16 +131,16 @@ require("lazy").setup({
   "tpope/vim-fugitive",
 
   -- Autopairs {} () []
-  { "windwp/nvim-autopairs", opts = {} },
+  { "windwp/nvim-autopairs",  opts = {} },
 
   -- Add/Delete/Change surrounding pairs
   { "kylechui/nvim-surround", version = "*", config = true },
 
   -- Useful plugin to show you pending keybinds
-  { "folke/which-key.nvim", opts = {} },
+  { "folke/which-key.nvim",   opts = {} },
 
   -- "gc" to comment visual region/lines
-  { "numToStr/Comment.nvim", opts = {}, config = true },
+  { "numToStr/Comment.nvim",  opts = {},     config = true },
 
   {
     "szw/vim-maximizer",
@@ -149,7 +149,7 @@ require("lazy").setup({
     }
   },
 
-  -- catppuccin colorscheme 
+  -- catppuccin colorscheme
   {
     "catppuccin/nvim",
     priority = 1000,
@@ -176,10 +176,10 @@ require("lazy").setup({
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-      "hrsh7th/cmp-buffer", -- source for text in buffer
-      "hrsh7th/cmp-path", -- source for file system paths
-      "hrsh7th/cmp-nvim-lsp", -- lsp completions
-      "L3MON4D3/LuaSnip", -- snippet engine
+      "hrsh7th/cmp-buffer",       -- source for text in buffer
+      "hrsh7th/cmp-path",         -- source for file system paths
+      "hrsh7th/cmp-nvim-lsp",     -- lsp completions
+      "L3MON4D3/LuaSnip",         -- snippet engine
       "saadparwaiz1/cmp_luasnip", -- for autocompletion
     },
     config = function()
@@ -187,7 +187,7 @@ require("lazy").setup({
       local luasnip = require("luasnip")
 
       luasnip.setup({
-        keys = function ()
+        keys = function()
           return {}
         end,
       })
@@ -207,7 +207,7 @@ require("lazy").setup({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-          ["<C-e>"] = cmp.mapping.abort(), -- close completion window
+          ["<C-e>"] = cmp.mapping.abort(),        -- close completion window
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -229,7 +229,7 @@ require("lazy").setup({
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "buffer" }, -- text within current buffer
-          { name = "path" }, -- file system paths
+          { name = "path" },   -- file system paths
         }),
       })
     end
@@ -314,7 +314,6 @@ require("lazy").setup({
 
       telescope.load_extension("fzf")
 
-      local keymap = vim.keymap
       keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
       keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
       keymap.set('n', '<leader>/', function()
@@ -352,9 +351,6 @@ require("lazy").setup({
       -- import cmp-nvim-lsp plugin
       local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-      local keymap = vim.keymap -- for conciseness
-
-      local opts = { noremap = true, silent = true }
       local on_attach = function(client, bufnr)
         -- avoid tsserver clash with denols
         if lspconfig.util.root_pattern("deno.json", "import_map.json")(vim.fn.getcwd()) then
@@ -364,16 +360,16 @@ require("lazy").setup({
           end
         end
 
-        keymap.set("n", "gd", "<cmd>telescope lsp_definitions<cr>", { buffer = bufnr, desc = "goto definition"})
-        keymap.set("n", "gr", "<cmd>telescope lsp_references<cr>", { buffer = bufnr, desc = "goto references"})
-        keymap.set("n", "gi", "<cmd>telescope lsp_implementations<cr>", { buffer = bufnr, desc = "goto implementation"})
-        keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "show documentation"})
-        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "smart rename"})
-        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "code actions"})
+        keymap.set("n", "gd", "<cmd>telescope lsp_definitions<cr>", { buffer = bufnr, desc = "goto definition" })
+        keymap.set("n", "gr", "<cmd>telescope lsp_references<cr>", { buffer = bufnr, desc = "goto references" })
+        keymap.set("n", "gi", "<cmd>telescope lsp_implementations<cr>", { buffer = bufnr, desc = "goto implementation" })
+        keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "show documentation" })
+        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "smart rename" })
+        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "code actions" })
 
-        vim.api.nvim_buf_create_user_command(bufnr, 'format', function(_)
+        vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
           vim.lsp.buf.format()
-        end, { desc = "format current buffer with lsp"})
+        end, { desc = "format current buffer with lsp" })
       end
 
       -- used to enable autocompletion (assign to every lsp server config)
