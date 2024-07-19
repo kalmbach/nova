@@ -10,6 +10,9 @@ if ! command -v starship &> /dev/null; then
   echo "" >> ~/.bashrc
   echo "# starship prompt" >> ~/.bashrc
   echo "eval \"\$(starship init bash)\"" >> ~/.bashrc
+
+  # startship dotfile
+  cp $NOVA_PATH/install/dotfiles/starship.toml ~/.config/starship.toml -v
   cd -
 else
   gum log --level info "found starship $(starship -V | awk '{print $2}')"
