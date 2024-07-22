@@ -9,7 +9,7 @@ if ! command -v go &> /dev/null; then
   # add entry to bashrc
   echo "" >> ~/.bashrc
   echo "# go" >> ~/.bashrc
-  echo "export PATH=\$PATH:\$HOME/.local/go/bin" >> ~/.bashrc
+  echo "export PATH=\"\$PATH:\$HOME/.local/go/bin\"" >> ~/.bashrc
   cd -
 else
   gum log --level info "found go $(go version | awk '{print $3}' | sed s/^go//)"

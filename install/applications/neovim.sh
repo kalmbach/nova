@@ -10,10 +10,10 @@ if ! command -v nvim &> /dev/null; then
 
   # dotfiles
   mkdir -p ~/.config/nvim
-  cp $NOVA_PATH/install/dotfiles/nvim-init.lua ~/.config/nvim/init.lua -v
+  cp $NOVA_PATH/install/applications/nvim/init.lua ~/.config/nvim/init.lua -v
 
   mkdir -p ~/.config/nvim/syntax
-  cp $NOVA_PATH/install/dotfiles/nvim-syntax-coffeescript.vim ~/.config/nvim/syntax/coffeescript.vim -v
+  cp $NOVA_PATH/install/applications/nvim/coffeescript.vim ~/.config/nvim/syntax/coffeescript.vim -v
   cd -
 else
   gum log --level info "found nvim $(nvim -v | awk 'NR==1{print $2}')"

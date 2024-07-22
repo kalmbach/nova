@@ -4,11 +4,11 @@ if ! command -v tmux &> /dev/null; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
   # tmux dotfile
-  cp $NOVA_PATH/install/dotfiles/tmux.conf ~/.tmux.conf -v
+  cp $NOVA_PATH/install/applications/tmux/tmux.conf ~/.tmux.conf -v
 
   # tmux git_branch plugin
-  cp $NOVA_PATH/install/dotfiles/tmux-git-branch-plugin.sh \
-    ~/.tmux/plugins/tmux/custom/git_bransh.sh -v
+  cp $NOVA_PATH/install/applications/tmux/git_branch.sh \
+    ~/.tmux/plugins/tmux/custom/git_branch.sh -v
 
   # Start tmux when opening terminal
   echo "" >> ~/.bashrc
