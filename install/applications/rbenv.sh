@@ -4,7 +4,7 @@ if ! command -v rbenv &> /dev/null; then
 
   echo "" >> ~/.bashrc
   echo "# rbenv" >> ~/.bashrc
-  echo "export PATH=\"\$HOME/.rbenv/bin:\$PATH\"" >> ~/.bashrc
+  echo "export PATH=\"\$PATH:\$HOME/.rbenv/bin\"" >> ~/.bashrc
   echo "eval \"\$(rbenv init - bash)\"" >> ~/.bashrc
 
   # Install ruby build essentials

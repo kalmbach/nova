@@ -21,6 +21,13 @@ else
   gum log --level info "found unzip $(unzip -v | awk 'NR==1{print $2}')"
 fi
 
+# add ~/.local/bin to the PATH
+if [[ ! ":$PATH:" == *":$HOME/.local/bin:"* ]];
+  echo "" >> ~/.bashrc
+  echo "# .local/bin" >> ~/.bashrc
+  echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> ~/.bashrc
+fi
+
 # Run application installers
 for installer in $NOVA_PATH/install/applications/*.sh; do
   source $installer
