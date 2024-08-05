@@ -10,7 +10,7 @@ if ! command -v clamd &> /dev/null; then
   sudo echo "fs.inotify.max_user_watches = 524288" >> /etc/sysctl.conf
 
   sudo cp $NOVA_PATH/install/security/clamonacc.service /etc/systemd/system/clamonacc.service -v
-  sudo chwon root.root /etc/systemd/system/clamonacc.service
+  sudo chown root.root /etc/systemd/system/clamonacc.service
 
   sudo systemctl enable clamonacc
   sudo systemctl start clamonacc
