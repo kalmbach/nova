@@ -6,11 +6,16 @@ if ! command -v clamd &> /dev/null; then
   sudo systemctl enable clamav-daemon 
   sudo systemctl start clamav-daemon
 
-  sudo echo "# ClamAV: Fix inotify watchpoint limitations" >> /etc/sysctl.conf
-  sudo echo "fs.inotify.max_user_watches = 524288" >> /etc/sysctl.conf
-
+  # On-Access
   sudo cp $NOVA_PATH/install/security/clamonacc.service /etc/systemd/system/clamonacc.service -v
   sudo chown root.root /etc/systemd/system/clamonacc.service
+
+  echo "# ClamAV: Fix inotify watchpoint limitations" | sudo tee -a  "/etc/sysctl.conf"
+  echo "fs.inotify.max_user_watches = 524288" | sudo tee -a "/etc/sysctl.conf"
+
+  echo "OnAccessExcludeUname clamav" | sudo tee -a "/etc/clamav/clamd.conf"
+  echo "OnAccessExlucdeRootUID true" | sudo tee -a "/etc/clamav/clamd.conf"
+  echo "OnAccessIncludePath /home" | sudo tee -a "/etc/clamav/clamd.conf"
 
   sudo systemctl enable clamonacc
   sudo systemctl start clamonacc
