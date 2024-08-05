@@ -19,3 +19,6 @@ source $NOVA_PATH/install/fonts.sh
 
 # Install dot files
 source $NOVA_PATH/install/catppuccin-gnome-terminal.sh 
+
+# Security
+source $NOVA_PATH/install/security.sh
