@@ -6,6 +6,8 @@ if ! command -v rustc &>/dev/null; then
   echo "" >> ~/.bashrc
   echo "# rust" >> ~/.bashrc
   echo "export PATH=\"\$PATH:\$HOME/.cargo/bin\"" >> ~/.bashrc
+
+  source ~/.bashrc
 else
   gum log --level info "found rust $(rustc --version | awk '{print $2}')"
 fi

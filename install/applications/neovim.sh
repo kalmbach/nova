@@ -1,5 +1,6 @@
 if ! command -v nvim &> /dev/null; then
   gum log --level info "installing neovim..."
+
   cd /tmp
   wget -O nvim.tar.gz "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
   tar -xzf nvim.tar.gz
@@ -10,10 +11,10 @@ if ! command -v nvim &> /dev/null; then
 
   # dotfiles
   mkdir -p ~/.config/nvim
-  cp $NOVA_PATH/install/applications/nvim/init.lua ~/.config/nvim/init.lua -v
+  cp $NOVA_PATH/install/applications/nvim/init.lua ~/.config/nvim/ -v
 
   mkdir -p ~/.config/nvim/syntax
-  cp $NOVA_PATH/install/applications/nvim/coffeescript.vim ~/.config/nvim/syntax/coffeescript.vim -v
+  cp $NOVA_PATH/install/applications/nvim/coffeescript.vim ~/.config/nvim/syntax/ -v
   cd -
 else
   gum log --level info "found nvim $(nvim -v | awk 'NR==1{print $2}')"

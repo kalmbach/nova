@@ -6,7 +6,7 @@ set -e
 NOVA_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
 
 # Install required packages
-source $NOVA_PATH/install/required/gum.sh > /dev/null
+source $NOVA_PATH/install/required/gum.sh
 
 # Check the distribution name and version and abort if incompatible
 source $NOVA_PATH/check-version.sh 

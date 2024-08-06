@@ -7,6 +7,8 @@ if ! command -v rbenv &> /dev/null; then
   echo "export PATH=\"\$PATH:\$HOME/.rbenv/bin\"" >> ~/.bashrc
   echo "eval \"\$(rbenv init - bash)\"" >> ~/.bashrc
 
+  source ~/.bashrc
+
   # Install ruby build essentials
   sudo apt install -y autoconf patch build-essential libssl-dev \
     libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev \

@@ -26,6 +26,8 @@ if [[ ! ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
   echo "" >> ~/.bashrc
   echo "# .local/bin" >> ~/.bashrc
   echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> ~/.bashrc
+
+  source ~/.bashrc
 fi
 
 # Run application installers
