@@ -14,7 +14,7 @@ if ! command -v clamd &> /dev/null; then
   echo "fs.inotify.max_user_watches = 524288" | sudo tee -a "/etc/sysctl.conf"
 
   echo "OnAccessExcludeUname clamav" | sudo tee -a "/etc/clamav/clamd.conf"
-  echo "OnAccessExlucdeRootUID true" | sudo tee -a "/etc/clamav/clamd.conf"
+  echo "OnAccessExcludeRootUID true" | sudo tee -a "/etc/clamav/clamd.conf"
   echo "OnAccessIncludePath /home" | sudo tee -a "/etc/clamav/clamd.conf"
 
   sudo systemctl enable clamonacc
