@@ -8,6 +8,9 @@ if ! command -v rustc &>/dev/null; then
   echo "export PATH=\"\$PATH:\$HOME/.cargo/bin\"" >> ~/.bashrc
 
   source ~/.bashrc
+
+  gum log --level info "installing rust-analyzer..."
+  rustup component add rust-analyzer
 else
   gum log --level info "found rust $(rustc --version | awk '{print $2}')"
 fi
