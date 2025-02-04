@@ -4,6 +4,7 @@
 set -e
 
 NOVA_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
+log() { while read i; do echo -e '\e[1A\e[K>' $i; done }
 
 # Install required packages
 source $NOVA_PATH/install/required/gum.sh
