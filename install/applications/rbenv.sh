@@ -11,9 +11,9 @@ if ! command -v rbenv &> /dev/null; then
 
   # Install ruby build essentials
   gum log --level info "installing build essentials..."
-  sudo apt install -y autoconf patch build-essential libssl-dev \
+  sudo apt-get install -y autoconf patch build-essential libssl-dev \
     libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev \
-    libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev
+    libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev | log
 
   # Add ruby build command
   git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build

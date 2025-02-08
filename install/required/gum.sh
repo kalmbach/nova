@@ -4,8 +4,8 @@ if ! command -v gum &> /dev/null; then
   cd /tmp
   GUM_VERSION="0.15.2"
   GUM_PACKAGE="gum_${GUM_VERSION}_amd64.deb"
-  wget -O $GUM_PACKAGE "https://github.com/charmbracelet/gum/releases/download/${GUM_VERSION}/${GUM_PACKAGE}" | log
-  sudo apt install -y ./$GUM_PACKAGE | log
+  wget -nv -O $GUM_PACKAGE "https://github.com/charmbracelet/gum/releases/download/v${GUM_VERSION}/${GUM_PACKAGE}"
+  sudo apt-get install -y ./$GUM_PACKAGE | log
   rm $GUM_PACKAGE 
   cd -
 fi

@@ -4,8 +4,8 @@ if gum confirm "install spotify client?"; then
     curl -sS https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
     echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 
-    sudo apt update
-    sudo apt install -y spotify-client
+    sudo apt-get update | log
+    sudo apt-get install -y spotify-client | log
   else
     gum log --level info "found spotify $(spotify --version | awk '{print $3}')"
   fi
