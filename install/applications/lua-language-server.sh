@@ -2,7 +2,7 @@ if ! command -v lua-language-server &> /dev/null; then
   gum log --level info "installing lua-language-server..."
   mkdir -p ~/.local/lua_ls
   cd ~/.local/lua_ls
-  wget "https://github.com/LuaLS/lua-language-server/releases/download/3.10.3/lua-language-server-3.10.3-linux-x64.tar.gz"
+  wget -nv "https://github.com/LuaLS/lua-language-server/releases/download/3.10.3/lua-language-server-3.10.3-linux-x64.tar.gz"
   tar -xzf lua-language-server-3.10.3-linux-x64.tar.gz
   rm lua-language-server-3.10.3-linux-x64.tar.gz
   cd -

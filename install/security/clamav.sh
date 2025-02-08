@@ -1,6 +1,6 @@
 if ! command -v clamd &> /dev/null; then
   gum log --level info "installing clamav..."
-  sudo apt install -y clamav-daemon
+  sudo apt-get install -y clamav-daemon | log
   sudo mkdir /quarantine
 
   sudo systemctl enable clamav-daemon 
