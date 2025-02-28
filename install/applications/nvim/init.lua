@@ -4,12 +4,15 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.keymap
 
-
 -- Window movement
 keymap.set("n", "<C-j>", "<C-w>j")
 keymap.set("n", "<C-k>", "<C-w>k")
 keymap.set("n", "<C-h>", "<C-w>h")
 keymap.set("n", "<C-l>", "<C-w>l")
+
+-- Window splitting
+keymap.set("n", "<C-v>", ":vs<CR>")
+keymap.set("n", "<C-s>", ":split<CR>")
 
 -- clear search hightlights
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search hightlights" })
