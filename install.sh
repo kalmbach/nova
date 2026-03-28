@@ -1,26 +1,20 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
 set -e
 set -o pipefail
+trap 'echo "$(tput setaf 1)Nova installation failed!$(tput sgr0)\nYou can retry by running: source $NOVA_PATH/install.sh"' ERR
 
+# Get script execution base path
 NOVA_PATH="$(dirname -- "${BASH_SOURCE[0]}")"
-log() { echo ""; while read i; do echo -e '\e[1A\e[K>' $i; done }
-
-# Install required packages
-source $NOVA_PATH/install/required/gum.sh
 
 # Check the distribution name and version and abort if incompatible
-# source $NOVA_PATH/check-version.sh
+source $NOVA_PATH/install/check-version.sh
 
 # Install applications
 source $NOVA_PATH/install/applications.sh
 
 # Install fonts
 source $NOVA_PATH/install/fonts.sh
-
-# Install dot files
-source $NOVA_PATH/install/catppuccin-gnome-terminal.sh
 
 # Security
 source $NOVA_PATH/install/security.sh
