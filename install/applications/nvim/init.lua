@@ -96,6 +96,29 @@ vim.o.termguicolors = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 
+-- LSP servers
+vim.lsp.config['lua_ls'] = {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" }
+      },
+      runtime = {
+        version = 'LuaJIT'
+      }
+    }
+  }
+}
+vim.lsp.config['gopls'] = {
+  cmd = { "gopls" },
+  filetypes = { "go" }
+}
+
+vim.lsp.enable('gopls')
+vim.lsp.enable('lua_ls')
+
 -- Highlight on yank
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -280,6 +303,9 @@ require("lazy").setup({
     end
   },
 
+  -- neovim api completion
+  { "folke/lazydev.nvim", ft = "lua" },
+
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -322,108 +348,27 @@ require("lazy").setup({
 
       telescope.load_extension("fzf")
 
-      keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-      keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-      keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
+      local builtin = require('telescope.builtin')
+      keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
+      keymap.set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
 
-      keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-      keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-      keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-      keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-      keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-      keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+      keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+      keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+      keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+      keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 
       keymap.set('n', '<leader>gs', ":Telescope git_status<CR>", { desc = "Show git modified files" })
       keymap.set('n', '<leader>gd', ":Gdiff<CR>", { desc = "Show git diff in splitted panel" })
+
+      keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = "LSP Definitions" })
+      keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "LSP References" })
+      keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = "LSP Implementations" })
+      keymap.set('n', '<leader>lk', vim.lsp.buf.hover, { desc = "LSP Documentation" })
+      keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = "LSP Format " })
     end
-  },
-
-  -- language servers
-  {
-    "neovim/nvim-lspconfig",
-    event = { "bufreadpre", "bufnewfile" },
-    dependencies = {
-      -- add lsp completion capabilities
-      "hrsh7th/cmp-nvim-lsp",
-
-      -- add completion for the nvim lua api
-      "folke/neodev.nvim"
-    },
-    config = function()
-      -- import lspconfig plugin
-      local lspconfig = require("lspconfig")
-
-      -- import cmp-nvim-lsp plugin
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-      local on_attach = function(client, bufnr)
-        -- avoid tsserver clash with denols
-        if lspconfig.util.root_pattern("deno.json", "import_map.json")(vim.fn.getcwd()) then
-          if client.name == "tsserver" then
-            client.stop()
-            return
-          end
-        end
-
-        keymap.set("n", "gd", "<cmd>telescope lsp_definitions<cr>", { buffer = bufnr, desc = "goto definition" })
-        keymap.set("n", "gr", "<cmd>telescope lsp_references<cr>", { buffer = bufnr, desc = "goto references" })
-        keymap.set("n", "gi", "<cmd>telescope lsp_implementations<cr>", { buffer = bufnr, desc = "goto implementation" })
-        keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "show documentation" })
-        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "smart rename" })
-        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "code actions" })
-
-        vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-          vim.lsp.buf.format()
-        end, { desc = "format current buffer with lsp" })
-      end
-
-      -- used to enable autocompletion (assign to every lsp server config)
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
-      -- change the diagnostic symbols in the sign column (gutter)
-      -- local signs = { Error = " ", Warn = " ", Hint = "* ", Info = " " }
-      -- for type, icon in pairs(signs) do
-      --  local hl = "DiagnosticSign" .. type
-      --  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-      -- end
-
-      local servers = {
-        "gopls",
-        "rust_analyzer",
-      }
-
-      for _, lsp in ipairs(servers) do
-        lspconfig[lsp].setup({
-          capabilities = capabilities,
-          on_attach = on_attach,
-        })
-      end
-
-      -- lua_ls
-      lspconfig["lua_ls"].setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = { -- custom settings for lua
-          Lua = {
-            -- make the language server recognize "vim" global
-            diagnostics = {
-              globals = { "vim" },
-            },
-            workspace = {
-              -- make language server aware of runtime files
-              library = {
-                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                [vim.fn.stdpath("config") .. "/lua"] = true,
-              },
-            },
-          },
-        },
-      })
-
-      -- setup neovim lua documentation
-      require("neodev").setup()
-    end,
   },
 }, {
   install = {
