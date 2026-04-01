@@ -238,6 +238,8 @@ require("lazy").setup({
     end
   },
 
+  { 'echasnovski/mini.icons', version = '*' },
+
   -- lualine
   {
     "nvim-lualine/lualine.nvim",
@@ -250,10 +252,12 @@ require("lazy").setup({
           icons_enabled = false,
           component_separators = '|',
           section_separators = '',
-          theme = "horizon"
+          theme = "horizon",
         },
         sections = {
           lualine_b = { 'branch', 'diff' },
+          lualine_x = { 'location' },
+          lualine_y = { 'lsp_status' },
           lualine_z = {
             {
               'diagnostics',
@@ -296,12 +300,13 @@ require("lazy").setup({
           layout_strategy = "vertical",
           layout_config = {
             preview_cutoff = 1,
-            prompt_position = 'top',
+            preview_height = 0.7,
+            prompt_position = 'bottom',
             width = function(_, max_columns, _)
               return math.min(max_columns, 100)
             end,
             height = function(_, _, max_lines)
-              return math.min(max_lines, 30)
+              return math.min(max_lines, 35)
             end
           },
           border = true,
@@ -319,13 +324,7 @@ require("lazy").setup({
 
       keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
       keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-      keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to telescope to change theme, layout, etc.
-        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
+      keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
 
       keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
       keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
@@ -333,6 +332,9 @@ require("lazy").setup({
       keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
       keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
       keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+
+      keymap.set('n', '<leader>gs', ":Telescope git_status<CR>", { desc = "Show git modified files" })
+      keymap.set('n', '<leader>gd', ":Gdiff<CR>", { desc = "Show git diff in splitted panel" })
     end
   },
 

@@ -1,17 +1,19 @@
 if ! command -v tmux &> /dev/null; then
-  gum log --level info "installing tmux..."
+  p "installing tmux..."
   sudo apt-get install -y tmux | log
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-  # tmux dotfile
-  cp $NOVA_PATH/install/applications/tmux/tmux.conf ~/.tmux.conf -v
+  p "cloning tmux plugin manager..."
+  git clone -q https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-  # Start tmux when opening terminal
+  p "copying ~/.tmux.conf..."
+  cp $NOVA_PATH/install/applications/tmux/tmux.conf ~/.tmux.conf
+
+  p "modifying .bashrc to start tmux when opening terminal..."
   echo "" >> ~/.bashrc
   echo "# start tmux" >> ~/.bashrc
   echo "[[ -z \"\$TMUX\" ]] && exec tmux" >> ~/.bashrc
 
   source ~/.bashrc
 else
-  gum log --level info "found tmux $(tmux -V | awk '{print $2}')"
+  p "found tmux $(tmux -V | awk '{print $2}')"
 fi

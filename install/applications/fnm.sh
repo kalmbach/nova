@@ -1,7 +1,8 @@
 if ! command -v fnm &> /dev/null; then
-  gum log --level info "installing fnm..."
-  curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+  p "installing fnm..."
+  curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell | log
   
+  p "modifying .bashrc to setup fnm..."
   echo "" >> ~/.bashrc
   echo "# fnm" >> ~/.bashrc
   echo "export PATH=\"\$PATH:\$HOME/.local/share/fnm\"" >> ~/.bashrc
@@ -9,5 +10,5 @@ if ! command -v fnm &> /dev/null; then
 
   source ~/.bashrc
 else
-  gum log --level info "found fnm $(fnm --version | awk '{print $2}')"
+  p "found fnm $(fnm --version | awk '{print $2}')"
 fi

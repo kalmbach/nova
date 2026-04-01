@@ -1,7 +1,8 @@
 if ! command -v rbenv &> /dev/null; then
-  gum log --level info "installing rbenv..."
-  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+  p "installing rbenv..."
+  git clone -q https://github.com/rbenv/rbenv.git ~/.rbenv 
 
+  p "modifyng .bashrc to setup rbenv"
   echo "" >> ~/.bashrc
   echo "# rbenv" >> ~/.bashrc
   echo "export PATH=\"\$PATH:\$HOME/.rbenv/bin\"" >> ~/.bashrc
@@ -9,14 +10,8 @@ if ! command -v rbenv &> /dev/null; then
 
   source ~/.bashrc
 
-  # Install ruby build essentials
-  gum log --level info "installing build essentials..."
-  sudo apt-get install -y autoconf patch build-essential libssl-dev \
-    libyaml-dev libreadline6-dev zlib1g-dev libgmp-dev libncurses5-dev \
-    libffi-dev libgdbm6 libgdbm-dev libdb-dev uuid-dev | log
-
-  # Add ruby build command
-  git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+  p "installing ruby build plugin..."
+  git clone -q https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 else
-  gum log --level info "found rbenv $(rbenv --version | awk '{print $2}')"
+  p "found rbenv $(rbenv --version | awk '{print $2}')"
 fi

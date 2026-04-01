@@ -1,34 +1,8 @@
-# Needed for all installers
-gum log --level info "updating apt repositories..."
-sudo apt-get update | log
-
-gum log --level info "installing updates..."
-sudo apt-get upgrade -y | log
-
-if ! command -v curl &> /dev/null; then
-  gum log --level info "installing curl..."
-  sudo apt-get install -y curl | log
-else
-  gum log --level info "found curl $(curl --version | awk 'NR==1{print $2}')"
-fi
-
-if ! command -v git &> /dev/null; then
-  gum log --level info "installing git..."
-  sudo apt-get install -y git | log
-else
-  gum log --level info "found git $(git --version | awk '{print $3}')"
-fi
-
-if ! command -v unzip &> /dev/null; then
-  gum log --level info "installing unzip..."
-  sudo apt-get install -y unzip | log
-else
-  gum log --level info "found unzip $(unzip -v | awk 'NR==1{print $2}')"
-fi
-
 # add ~/.local/bin to the PATH
 if [[ ! ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
-  gum log --level info "adding ~/.local/bin to the PATH..."
+  p "adding ~/.local/bin to the PATH..."
+  mkdir -p ~/.local/bin
+
   echo "" >> ~/.bashrc
   echo "# .local/bin" >> ~/.bashrc
   echo "export PATH=\"\$PATH:\$HOME/.local/bin\"" >> ~/.bashrc
@@ -36,7 +10,28 @@ if [[ ! ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
   source ~/.bashrc
 fi
 
-# Run application installers
-for installer in $NOVA_PATH/install/applications/*.sh; do
-  source $installer
-done
+# basic
+source $NOVA_PATH/install/applications/build-essential.sh
+source $NOVA_PATH/install/applications/curl.sh
+source $NOVA_PATH/install/applications/wget.sh
+source $NOVA_PATH/install/applications/unzip.sh
+source $NOVA_PATH/install/applications/git.sh
+source $NOVA_PATH/install/applications/ripgrep.sh
+source $NOVA_PATH/install/applications/fzf.sh
+source $NOVA_PATH/install/applications/gnupg2.sh
+source $NOVA_PATH/install/applications/htop.sh
+source $NOVA_PATH/install/applications/pass.sh
+source $NOVA_PATH/install/applications/docker.sh
+source $NOVA_PATH/install/applications/github.sh
+
+# dev 
+source $NOVA_PATH/install/applications/fnm.sh
+source $NOVA_PATH/install/applications/rbenv.sh
+source $NOVA_PATH/install/applications/golang.sh
+
+# the editor
+source $NOVA_PATH/install/applications/neovim.sh
+
+# term
+source $NOVA_PATH/install/applications/starship.sh
+source $NOVA_PATH/install/applications/tmux.sh
