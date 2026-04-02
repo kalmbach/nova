@@ -3,6 +3,12 @@ if ! command -v ufw &> /dev/null; then
   sudo apt-get install -y ufw | log
 fi
 
-p "enabling firewall..."
-sudo ufw enable
-sudo ufw status verbose
+firewall_status=$(sudo ufw status | awk '{print $2}')
+
+if [ "$firewall_status" = "active" ]; then
+  p "firewall enabled..."
+else
+  p "enabling firewall..."
+  sudo ufw enable
+  sudo ufw status verbose
+fi

@@ -28,6 +28,7 @@ source $NOVA_PATH/install/applications/github.sh
 source $NOVA_PATH/install/applications/fnm.sh
 source $NOVA_PATH/install/applications/rbenv.sh
 source $NOVA_PATH/install/applications/golang.sh
+source $NOVA_PATH/install/applications/lua-language-server.sh
 
 # the editor
 source $NOVA_PATH/install/applications/neovim.sh
@@ -35,3 +36,7 @@ source $NOVA_PATH/install/applications/neovim.sh
 # term
 source $NOVA_PATH/install/applications/starship.sh
 source $NOVA_PATH/install/applications/tmux.sh
+
+# extras
+source $NOVA_PATH/install/applications/spotify.sh
+source $NOVA_PATH/install/applications/vlc.sh
