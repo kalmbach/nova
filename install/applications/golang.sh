@@ -14,9 +14,6 @@ if ! command -v go &> /dev/null; then
 
   export GOBIN="$HOME/.local/go/bin"
   export PATH="$PATH:$GOBIN"
-
-  p "installing go-language-server..."
-  go install golang.org/x/tools/gopls@latest | log
 else
   p "found go $(go version | awk '{print $3}' | sed s/^go//)"
 fi

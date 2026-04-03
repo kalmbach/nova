@@ -23,12 +23,15 @@ source $NOVA_PATH/install/applications/htop.sh
 source $NOVA_PATH/install/applications/pass.sh
 source $NOVA_PATH/install/applications/docker.sh
 source $NOVA_PATH/install/applications/github.sh
+source $NOVA_PATH/install/applications/github-dash.sh
 
 # dev 
 source $NOVA_PATH/install/applications/fnm.sh
 source $NOVA_PATH/install/applications/rbenv.sh
-source $NOVA_PATH/install/applications/golang.sh
 source $NOVA_PATH/install/applications/lua-language-server.sh
+source $NOVA_PATH/install/applications/golang.sh
+source $NOVA_PATH/install/applications/gopls.sh
+source $NOVA_PATH/install/applications/glow.sh
 
 # the editor
 source $NOVA_PATH/install/applications/neovim.sh

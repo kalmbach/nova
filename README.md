@@ -1,2 +1,4 @@
 # nova
-Opinionated Pop! OS Setup
+Opinionated Ubuntu OS Setup
+
+inspired by https://omakub.org/
