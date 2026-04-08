@@ -339,15 +339,16 @@ require("lazy").setup({
           sorting_strategy = "ascending",
           layout_strategy = "vertical",
           layout_config = {
+            horizontal = {
+              preview_width = 0.7,
+            },
+            vertical = {
+              preview_height = 0.7,
+            },
             preview_cutoff = 1,
-            preview_height = 0.7,
             prompt_position = 'bottom',
-            width = function(_, max_columns, _)
-              return math.min(max_columns, 100)
-            end,
-            height = function(_, _, max_lines)
-              return math.min(max_lines, 35)
-            end
+            width = 0.8,
+            height = 0.8,
           },
           border = true,
           mappings = {
@@ -355,11 +356,16 @@ require("lazy").setup({
               ["<C-k>"] = actions.move_selection_previous, -- move to the prev result
               ["<C-j>"] = actions.move_selection_next,     -- move to the next result
               ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-              ["<C-d>"] = function(bufnr) slow_scroll(bufnr, 1) end, -- scroll down just one line in previews
-              ["<C-u>"] = function(bufnr) slow_scroll(bufnr, -1) end, -- scroll up just one line in previews
+              ["<C-M-j>"] = function(bufnr) slow_scroll(bufnr, 1) end, -- scroll down just one line in previews
+              ["<C-M-k>"] = function(bufnr) slow_scroll(bufnr, -1) end, -- scroll up just one line in previews
             },
           }
-        }
+        },
+        pickers = {
+          git_status = {
+            layout_strategy = "horizontal",
+          },
+        },
       })
 
       telescope.load_extension("fzf")
@@ -376,7 +382,7 @@ require("lazy").setup({
       keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 
-      keymap.set('n', '<leader>gs', ":Telescope git_status<CR>", { desc = "Show git modified files" })
+      keymap.set('n', '<leader>gs', builtin.git_status, { desc = "Show git modified files" })
       keymap.set('n', '<leader>gd', ":Gdiff<CR>", { desc = "Show git diff in splitted panel" })
 
       keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = "LSP Definitions" })
