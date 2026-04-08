@@ -317,7 +317,21 @@ require("lazy").setup({
     },
     config = function()
       local telescope = require("telescope")
+      local state = require("telescope.state")
       local actions = require("telescope.actions")
+      local action_state = require("telescope.actions.state")
+
+      local slow_scroll = function(prompt_bufnr, direction)
+        local previewer = action_state.get_current_picker(prompt_bufnr).previewer
+        local status = state.get_status(prompt_bufnr)
+
+        -- Check if we actually have a previewer and a preview window
+        if type(previewer) ~= "table" or previewer.scroll_fn == nil or status.preview_win == nil then
+          return
+        end
+
+        previewer:scroll_fn(1 * direction)
+      end
 
       telescope.setup({
         defaults = {
@@ -341,7 +355,9 @@ require("lazy").setup({
               ["<C-k>"] = actions.move_selection_previous, -- move to the prev result
               ["<C-j>"] = actions.move_selection_next,     -- move to the next result
               ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            }
+              ["<C-d>"] = function(bufnr) slow_scroll(bufnr, 1) end, -- scroll down just one line in previews
+              ["<C-u>"] = function(bufnr) slow_scroll(bufnr, -1) end, -- scroll up just one line in previews
+            },
           }
         }
       })
