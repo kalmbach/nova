@@ -63,9 +63,3 @@ source $NOVA_PATH/install/security.sh
 
 # Install fonts
 source $NOVA_PATH/install/fonts.sh
-
-# customization
-# gnome-extensions disable ubuntu-dock@ubuntu.com
-# sudo mv /usr/share/gnome-shell/extensions/ubuntu-dock@ubuntu.com{,.bak}
-
-# install lua-language-server
