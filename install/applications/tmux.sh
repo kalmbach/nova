@@ -20,7 +20,7 @@ DEST_TMUX_CONF="$HOME/.tmux.conf"
 
 p "check $DEST_TMUX_CONF..."
 if [ -f "$DEST_TMUX_CONF" ]; then
-  if cmp -s "$DEST_TMUX_CONF" "$ORIG_TMUX_CONF"; then
+  if ! cmp -s "$DEST_TMUX_CONF" "$ORIG_TMUX_CONF"; then
     read -p "Update $DEST_TMUX_CONF? (y/n): " -n 1 -r yn
     echo
 
@@ -31,6 +31,5 @@ if [ -f "$DEST_TMUX_CONF" ]; then
   fi
 else
   p "installing $DEST_TMUX_CONF..."
-  mkdir -p ~/.config/nvim
   cp $ORIG_TMUX_CONF  $DEST_TMUX_CONF
 fi

@@ -21,7 +21,7 @@ DEST_INIT_LUA="$HOME/.config/nvim/init.lua"
 
 p "check $DEST_INIT_LUA..."
 if [ -f "$DEST_INIT_LUA" ]; then
-  if cmp -s "$DEST_INIT_LUA" "$ORIG_INIT_LUA"; then
+  if ! cmp -s "$DEST_INIT_LUA" "$ORIG_INIT_LUA"; then
     read -p "Update $DEST_INIT_LUA? (y/n): " -n 1 -r yn
     echo
 
