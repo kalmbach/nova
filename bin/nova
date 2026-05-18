@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+#
+# nova - git helpers from the nova system
+
+set -uo pipefail
+
+usage() {
+  cat <<'EOF'
+nova - git helpers
+
+usage:
+  nova new <issue#>   create a branch from a GitHub issue
+  nova new <name>     create a branch with the given name
+  nova tidy           interactively delete merged branches
+  nova jump [name]    switch branches (interactive if no name given)
+EOF
+}
+
+die() {
+  echo "nova: $*" >&2
+  exit 1
+}
+
+require_git_repo() {
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+    || die "not inside a git repository"
+}
+
+require_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
+}
+
+cmd_jump() {
+  require_git_repo
+  require_cmd gum
+
+  local current target
+  current=$(git rev-parse --abbrev-ref HEAD)
+
+  if [ $# -gt 0 ]; then
+    target="$1"
+  else
+    local options
+    options=$(git branch --format="%(refname:short)" | grep -vx "$current")
+    [ -n "$options" ] || die "no other branches to switch to"
+    target=$(echo "$options" | gum filter)
+  fi
+
+  [ -n "$target" ] || die "no branch selected"
+  git switch "$target"
+}
+
+cmd_tidy() {
+  require_git_repo
+  require_cmd gum
+
+  local head merged selected
+  head=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null \
+    | sed 's@^refs/remotes/origin/@@')
+
+  merged=$(git branch --format="%(refname:short)" --merged \
+    | grep -vx "${head:-}" \
+    | grep -v '^$' || true)
+
+  if [ -z "$merged" ]; then
+    echo "no merged branches to delete."
+    return 0
+  fi
+
+  selected=$(gum choose \
+    --header="Choose branches to delete:" \
+    --cursor-prefix="[] " \
+    --selected-prefix="[x] " \
+    --unselected-prefix="[] " \
+    --no-limit \
+    $merged)
+
+  [ -n "$selected" ] || { echo "no branches selected."; return 0; }
+
+  echo "$selected" | while IFS= read -r branch; do
+    [ -n "$branch" ] && git branch -d "$branch"
+  done
+}
+
+cmd_new() {
+  require_git_repo
+  require_cmd gh
+  require_cmd gum
+
+  [ $# -gt 0 ] || die "branch name or issue number required"
+
+  local input="$1" branch
+  if [[ "$input" =~ ^[0-9]+$ ]]; then
+    branch=$(branch_name_from_issue "$input") || exit 1
+  else
+    branch="$input"
+  fi
+
+  [ -n "$branch" ] || die "empty branch name"
+
+  gum confirm "create branch $branch" || exit 1
+
+  local default_branch
+  default_branch=$(gh repo view --json defaultBranchRef -q ".defaultBranchRef.name")
+
+  git branch "$branch" "origin/$default_branch"
+  git switch "$branch"
+}
+
+branch_name_from_issue() {
+  local issue="$1" repo title slug proposed
+  repo=$(gum spin --title "fetching repo name... " --show-output -- \
+    gh repo view --json nameWithOwner -q ".nameWithOwner")
+  repo=$(gum input --prompt="repository: " --value="$repo")
+
+  title=$(gum spin --title "fetching issue... " --show-output -- \
+    gh --repo "$repo" issue view "$issue" --json title -q .title)
+
+  [ -n "$title" ] || { echo "could not find issue $issue in $repo" >&2; return 1; }
+
+  slug=$(echo "$title" \
+    | iconv -t ascii//IGNORE//TRANSLIT \
+    | sed -r 's/[^a-zA-Z0-9]+/-/g' \
+    | sed -r 's/^-+|-+$//g' \
+    | tr A-Z a-z \
+    | head -c64)
+
+  proposed="$issue-$slug"
+  gum input --width=0 --prompt="proposed name: " --value="$proposed"
+}
+
+main() {
+  if [ $# -eq 0 ]; then
+    usage
+    return
+  fi
+
+  local sub="$1"; shift
+  case "$sub" in
+    new)            cmd_new "$@" ;;
+    tidy)           cmd_tidy "$@" ;;
+    jump)           cmd_jump "$@" ;;
+    help|-h|--help) usage ;;
+    *)              echo "nova: unknown subcommand '$sub'" >&2; usage; exit 1 ;;
+  esac
+}
+
+main "$@"

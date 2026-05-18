@@ -31,6 +31,7 @@ source $NOVA_PATH/install/applications/rbenv.sh
 source $NOVA_PATH/install/applications/lua-language-server.sh
 source $NOVA_PATH/install/applications/golang.sh
 source $NOVA_PATH/install/applications/gopls.sh
+source $NOVA_PATH/install/applications/gum.sh
 source $NOVA_PATH/install/applications/glow.sh
 
 # the editor
@@ -43,3 +44,6 @@ source $NOVA_PATH/install/applications/tmux.sh
 # extras
 source $NOVA_PATH/install/applications/spotify.sh
 source $NOVA_PATH/install/applications/vlc.sh
+
+# nova
+source $NOVA_PATH/install/applications/nova-cli.sh
