@@ -402,7 +402,7 @@ require("lazy").setup({
       keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 
       keymap.set('n', '<leader>gs', builtin.git_status, { desc = "Show git modified files" })
-      keymap.set('n', '<leader>gd', ":Gdiff<CR>", { desc = "Show git diff in splitted panel" })
+      keymap.set('n', '<leader>gd', ":Gvdiff<CR>", { desc = "Show git diff in splitted panel" })
 
       keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = "LSP Definitions" })
       keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "LSP References" })
