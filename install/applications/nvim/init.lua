@@ -149,10 +149,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- lua functions that many plugins use
   "nvim-lua/plenary.nvim",
-
-  -- tmux & split window navigation
-  "christoomey/vim-tmux-navigator",
-
   "nvim-tree/nvim-web-devicons",
   "tpope/vim-fugitive",
 
@@ -173,6 +169,18 @@ require("lazy").setup({
     keys = {
       { "<leader>sm", "<cmd>MaximizerToggle<CR>" }
     }
+  },
+
+  -- tmux & split window navigation
+  {
+    "christoomey/vim-tmux-navigator",
+    config = function()
+      -- Window movement in terminal mode
+      keymap.set("t", "<C-j>", "<Cmd>TmuxNavigateDown<CR>")
+      keymap.set("t", "<C-k>", "<Cmd>TmuxNavigateUp<CR>")
+      keymap.set("t", "<C-h>", "<Cmd>TmuxNavigateLeft<CR>")
+      keymap.set("t", "<C-l>", "<Cmd>TmuxNavigateRight<CR>")
+    end
   },
 
   -- catppuccin colorscheme
@@ -321,6 +329,19 @@ require("lazy").setup({
 
       neotree.setup({
         keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = 'Toggle Neo-tree File Explorer' })
+      })
+    end
+  },
+
+  -- agent on the side terminal
+  {
+    "kalmbach/aos.nvim",
+    config = function ()
+      require("aos").setup({
+        command = 'claude',
+        window = {
+          width = 0.3,
+        },
       })
     end
   },
