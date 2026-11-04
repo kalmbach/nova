@@ -346,6 +346,19 @@ require("lazy").setup({
     end
   },
 
+  -- persistent floating terminal
+  {
+    "kalmbach/floatty.nvim",
+    config = function()
+      require('floatty').setup({
+        window = {
+          width = 0.75,
+          height = 0.75,
+        },
+      })
+    end
+  },
+
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -443,4 +456,13 @@ require("lazy").setup({
   change_detection = {
     notify = false,
   },
+  rocks = {
+    enabled = false,
+  },
 })
+
+-- set transparent background after loading the colorscheme
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
+vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
