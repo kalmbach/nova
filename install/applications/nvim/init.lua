@@ -22,8 +22,14 @@ keymap.set("n", "n", "nzz", { desc = "Show next search result" })
 keymap.set("n", "N", "Nzz", { desc = "Show previous search result" })
 
 -- Buffer movement
-keymap.set("n", "<tab>", ":bn<CR>", { desc = "Go to next buffer" })
-keymap.set("n", "<S-tab>", ":bp<CR>", { desc = "Go to previous buffer" })
+keymap.set("n", "<tab>", function()
+  if vim.wo.winfixbuf then return end
+  vim.cmd "bn"
+end, { desc = "Go to next buffer" })
+keymap.set("n", "<S-tab>", function()
+  if vim.wo.winfixbuf then return end
+  vim.cmd "bp"
+end, { desc = "Go to previous buffer" })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', ',d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -442,7 +448,8 @@ require("lazy").setup({
       keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "LSP References" })
       keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = "LSP Implementations" })
       keymap.set('n', '<leader>lk', vim.lsp.buf.hover, { desc = "LSP Documentation" })
-      keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = "LSP Format " })
+      keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = "LSP Format" })
+      keymap.set('n', '<leader>la', vim.lsp.buf.code_action, { desc = "LSP Code Action" })
     end
   },
 }, {
